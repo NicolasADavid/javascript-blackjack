@@ -1,0 +1,169 @@
+//card constructor
+var Card = function(Suit,Num){
+    var suit = Suit;
+    var number = Num;
+    
+    //return number
+    this.getNumber = function(){
+        return number;
+    };
+    
+    //return suit
+    this.getSuit = function(){
+        return suit;
+    };
+    
+    //return value
+    this.getValue = function(){
+        if(number>=11){
+            value = 10;
+        }else if(number<=10&&number>=2){
+            value = number;
+        }else{
+            value = 11;
+        }
+        return value;
+    };
+
+};
+
+//creates a card
+Deal = function(){
+    var card = new Card(Math.floor(Math.random()*4+1),Math.floor(Math.random()*13+1));
+    return card;
+};
+
+//creates a hand
+Hand = function(){
+    var myCards = [];
+    myCards[0] = Deal();
+    myCards[1] = Deal();
+    
+    //returns hand array
+    this.getHand = function(){
+        return myCards;
+    };
+    
+    //returns the sum of all card values
+    this.getScore = function(){
+        var total = 0;
+        var aces = 0;
+        for(i=0;i<myCards.length;i++){
+            if(myCards[i].getValue()==11){
+                aces += 1;
+            }
+            total += myCards[i].getValue();
+        }
+        
+        while(total>21&&aces>0){
+            total -= 10;
+            aces--;
+        }
+        
+        //console.log(total);
+        return total;
+    };
+    
+    //prints the cards in myCards array
+    this.printHand = function(){
+        
+        var cardName;
+        var suitName;
+        var cardsInArray = [];
+        var message;
+        
+        for(i=0;i<myCards.length;i++){
+            
+            //Determining name/number
+            if(myCards[i].getNumber()==13){
+                cardName = "King";
+            }else if(myCards[i].getNumber()==12){
+                cardName = "Queen";
+            }else if(myCards[i].getNumber()==11){
+                cardName = "Jack";   
+            }else if (myCards[i].getNumber()==1){
+                cardName = "Ace";
+            }else{
+                cardName = myCards[i].getNumber();
+            }
+                
+            //Determining suit
+            if(myCards[i].getSuit()==1){
+                suitName = "Clubs";
+            }else if(myCards[i].getSuit()==2){
+                suitName = "Diamonds";
+            }else if(myCards[i].getSuit()==3){
+                suitName = "Hearts";
+            }else if(myCards[i].getSuit()==4){
+                suitName = "Spades";
+            }
+            console.log(cardName+" of "+suitName);
+            cardsInArray[i*2] = cardName;
+            cardsInArray[(i*2)+1] = suitName;
+        }
+        return cardsInArray;
+    };
+    
+    this.hitMe = function(){
+        i = myCards.length;
+            myCards[i] = Deal();
+    };
+    
+};
+
+playAsDealer = function(){
+    dealerHand = new Hand();
+    console.log("Initial deal");
+    dealerHand.printHand();
+    while(dealerHand.getScore()<17){
+        dealerHand.hitMe();
+        console.log("Hit");
+        dealerHand.printHand();
+    }
+    return dealerHand.getScore();
+};
+
+playAsUser = function(){
+    userHand = new Hand();
+    var decision = true;
+    confirm("In the next window, click ok to receive a hit or cancel to hold. Click any button to continue.");
+    while(decision === true){
+        decision = confirm(userHand.printHand());
+        if(decision === true){
+            userHand.hitMe();
+        }
+    }
+    return userHand.getScore();
+};
+
+declareWinner = function(userHand,dealerHand){
+    
+    if(userHand.getScore()<=21){
+        if(dealerHand.getScore()<=21){
+            if(userHand.getScore()>dealerHand.getScore()){
+                return "You win!";
+            }else if(userHand.getScore()==dealerHand.getScore()){
+                return "You tied!";
+            }else{
+                return "You lose!";
+            }
+        }else{
+            return "You win!";
+        }
+    }else{
+        return "You lose!";
+    }
+    
+};
+
+playGame = function(){
+    console.log(playAsUser());
+    console.log("\n");
+    console.log(playAsDealer());
+    console.log("\n");
+    console.log(declareWinner(userHand,dealerHand));
+    console.log("\n");
+    console.log("\n");
+};
+
+playGame();
