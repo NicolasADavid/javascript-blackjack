@@ -113,9 +113,10 @@ Hand = function(){
 
 playAsDealer = function(){
     dealerHand = new Hand();
-    console.log("Initial deal");
+    console.log("Dealer's Initial deal");
     dealerHand.printHand();
     while(dealerHand.getScore()<17){
+        console.log("");
         dealerHand.hitMe();
         console.log("Hit");
         dealerHand.printHand();
@@ -128,10 +129,12 @@ playAsUser = function(){
     var decision = true;
     confirm("In the next window, click ok to receive a hit or cancel to hold. Click any button to continue.");
     while(decision === true){
+        console.log("Your hand is:");
         decision = confirm(userHand.printHand());
         if(decision === true){
             userHand.hitMe();
         }
+        console.log("");
     }
     return userHand.getScore();
 };
