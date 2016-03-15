@@ -1,4 +1,4 @@
 javascript-blackjack
 ====================
 
-PLAY BLACKJACK!! JAVASCRIPT!! YEAH!!
+Blackjack in Javascript!!
