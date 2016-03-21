@@ -70,6 +70,7 @@ Hand = function(){
         var cardName;
         var suitName;
         var cardsInArray = [];
+        var cardStringsInArray = [];
         var message;
         
         for(i=0;i<myCards.length;i++){
@@ -100,8 +101,11 @@ Hand = function(){
             console.log(cardName+" of "+suitName);
             cardsInArray[i*2] = cardName;
             cardsInArray[(i*2)+1] = suitName;
+            
+            cardStringsInArray[i] = " "+cardName+" of "+suitName;
         }
-        return cardsInArray;
+        
+        return cardStringsInArray;
     };
     
     this.hitMe = function(){
@@ -130,9 +134,12 @@ playAsUser = function(){
     confirm("In the next window, click ok to receive a hit or cancel to hold. Click any button to continue.");
     while(decision === true){
         console.log("Your hand is:");
-        decision = confirm(userHand.printHand());
+        decision = confirm("Your hand: "+userHand.printHand());
         if(decision === true){
+            console.log("Hit!");
             userHand.hitMe();
+        } else {
+            console.log("Hold!");
         }
         console.log("");
     }
